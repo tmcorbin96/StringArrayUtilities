@@ -1,9 +1,8 @@
 package com.zipcodewilmington;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by leon on 1/29/18.
@@ -110,7 +109,18 @@ public class StringArrayUtils {
      * @return number of occurrences the specified `value` has occurred
      */ // TODO
     public static int getNumberOfOccurrences(String[] array, String value) {
-        return 0;
+        String newArray = Arrays.toString(array);
+        // changes string [] to string
+        String newString [] = newArray.replaceAll("\\p{Punct}", "").split(" ");
+        //creates newString from newArray after having all punctuation removed and adding spaces.
+        int count = 0;
+
+        for (int i=0; i < newString.length; i++) {
+            if (value.equals(newString[i]))
+           count++;
+
+        }
+        return count;
     }
 
     /**
@@ -119,7 +129,11 @@ public class StringArrayUtils {
      * @return array with identical contents excluding values of `value`
      */ // TODO
     public static String[] removeValue(String[] array, String valueToRemove) {
-        return null;
+       ArrayList<String> newArray = new ArrayList(Arrays.asList(array));
+       newArray.remove(valueToRemove);
+       String[] newValue = newArray.toArray(new String[0]);
+
+        return newValue;
     }
 
     /**
@@ -127,7 +141,21 @@ public class StringArrayUtils {
      * @return array of Strings with consecutive duplicates removes
      */ // TODO
     public static String[] removeConsecutiveDuplicates(String[] array) {
-        return null;
+        ArrayList<String> newArray = new ArrayList<String>();
+        Set<String> set = new HashSet<>(newArray);
+        // newArray.clear();
+       // for (String s : array) {
+            newArray.add(array[0]);
+            for (int i = 1; i<array.length; i++) {
+                if (!array[i].equals(array[i-1])) {
+                    newArray.add(array[i]);
+                }
+            }
+
+            String[] removal =new String[newArray.size()];
+            removal = newArray.toArray(removal);
+
+        return removal;
     }
 
     /**
@@ -135,7 +163,22 @@ public class StringArrayUtils {
      * @return array of Strings with each consecutive duplicate occurrence concatenated as a single string in an array of Strings
      */ // TODO
     public static String[] packConsecutiveDuplicates(String[] array) {
-        return null;
+        ArrayList<String> dupe = new ArrayList();
+        for (int i=0; i< array.length; i++) {
+            dupe.add(i, array[i]);
+        }
+        for (int i = 0; i < dupe.size()-1; i++) {
+            while(dupe.get(i).contains((dupe.get(i+1)))) {
+                dupe.set(i, (dupe.get(i) + dupe.get(i+1)));
+                dupe.remove(i+1);
+                if (i== dupe.size()-1) {
+                    break;
+                }
+            }
+        }
+        String[] pack = new String[dupe.size()];
+        pack = dupe.toArray(pack);
+        return pack;
     }
 
 
